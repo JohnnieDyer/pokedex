@@ -1,4 +1,6 @@
-const typebackgroundColoures: { [key: string]: any } = {
+'use client';
+
+const typeColours: { [key: string]: any } = {
     normal: {
         backgroundColour: 't-col-normal',
         textColour: 'text-slate-900',
@@ -80,16 +82,21 @@ const TypeFunctions = {
 
     getTypeBackgroundColour: function (typeName: string) {
 
-        return typebackgroundColoures[typeName]?.backgroundColour  || '';
+        return typeColours[typeName]?.backgroundColour  || '';
     },
 
     getTypeTextColour: function (typeName: string) {
-        return typebackgroundColoures[typeName]?.textColour  || '';
+        return typeColours[typeName]?.textColour  || '';
     },
 
-    getTypeDarkColour: function (typeName: string) {
-        return typebackgroundColoures[typeName]?.solidColour  || '';
+    getTypeSolidColour: function (typeName: string) {
+        return typeColours[typeName]?.solidColour  || '';
     }
 }
 
 export default TypeFunctions;
+
+export interface PokemonType {
+    slot: number,
+    name: string
+}

@@ -1,9 +1,10 @@
+'use client';
 import React from 'react';
-import TypeFunctions from '../data/types'
+import TypeFunctions from '../data/pokemonTypes'
 
 export default function TypeBubble(props: { typeName: string }) {
 
-    const backgroundColour = TypeFunctions.getTypeDarkColour(props.typeName);
+    const backgroundColour = TypeFunctions.getTypeSolidColour(props.typeName);
     const textColour = TypeFunctions.getTypeTextColour(props.typeName);
 
     return (
