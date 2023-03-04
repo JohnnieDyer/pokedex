@@ -22,6 +22,8 @@ export interface PokemonDetails {
     imageUrl: string,
     description: string,
     abilities: PokemonAbility[]
+    height: number,
+    weight: number,
     extraDataFetched: Boolean
 }
 

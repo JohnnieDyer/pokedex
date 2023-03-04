@@ -5,14 +5,12 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import PokemonCard from './pokemonCard';
 import PokemonSearch from './pokemonSearch';
 
-// other
-import DataLoader from '../data/dataLoader';
-
 // data
 import { PokemonOverview, PokemonDetails } from '../data/dataTypes';
-import PokemonData from '../data/pokemonData';
 
-export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSelected }) => {
+
+
+export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSelected, onScrolledToBottom }) => {
 
     const [ isLoading, setIsLoading ] = useState<Boolean>(false);
     const [ pokemonList, setPokemonList ] = useState<PokemonOverview[]>();
@@ -23,12 +21,20 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSele
         setPokemonList(data);
     }, [ data ]);
 
+
+    // functions
+
     const pokemonSelected = (id: number) => {
         onPokemonSelected(id);
     }
 
-    const handleChosenPokemonSearchResult = () => {
+    // detect reaching the bottom and load more data
+    const handleScroll = (e: any) => {
+        const atBottom = (e.target.scrollHeight - e.target.scrollTop) == e.target.clientHeight;
 
+        if (atBottom) {
+            onScrolledToBottom();
+        }
     }
 
     return (
@@ -38,8 +44,9 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSele
                 onPokemonSelected={pokemonSelected}
             >
             </PokemonSearch>
-            <div className="w-full grow overflow-auto scrollbar-hide rounded-xl">
-                <ul>
+            <div className="w-full grow overflow-auto scrollbar-hide rounded-xl"
+                onScroll={handleScroll}>
+                <ul >
                     {(pokemonList && pokemonList.length) && (
                         pokemonList.map(x => {
                             return <PokemonCard

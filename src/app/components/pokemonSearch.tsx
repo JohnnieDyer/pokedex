@@ -1,15 +1,9 @@
 
 'use client';
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import Image from 'next/image'
 
 // custom components
-import TypeBubble from './typeBubble';
 import SearchResult from './searchResultObject';
-
-// other
-import HelperFunctions from '../helperFunctions';
-import TypeFunctions from '../data/pokemonTypes';
 
 // data
 import { PokemonSearchTerms } from '../data/pokemonSearchTerms';
@@ -28,7 +22,7 @@ export const PokemonSearch: FunctionComponent<any> = ({ data, onPokemonSelected 
         }
     }, [ searchTerm ]);
 
-    
+
     let searchInput: any;
     let timeout: any;
 

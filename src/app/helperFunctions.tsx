@@ -22,7 +22,13 @@ const HelperFunctions = {
     sortPokemonDataByID: (dataArray: PokemonDetails[]) => {
         dataArray.sort((x, y) => (x.id > y.id) ? 1 : ((y.id > x.id) ? -1 : 0));
         return dataArray;
+    },
+
+    // some descriptions have symbols in the text
+    removeSymbolsFromText(string: string) {
+        return string.replace('\f', ' ').replace('\u00ad\n', ' ').replace('\f', '\n').replace('\u00ad\n', '').replace('\u00ad', '').replace(' -\n', ' - ').replace('-\n', '-').replace('\n', ' ')
     }
 }
 
 export default HelperFunctions;
+

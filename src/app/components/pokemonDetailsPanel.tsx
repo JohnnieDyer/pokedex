@@ -1,16 +1,13 @@
 'use client';
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import Image from 'next/image'
 
 // custom components
 import TypeBubble from './typeBubble';
-
-// data types
-import { PokemonOverview, PokemonDetails } from '../data/dataTypes';
+import PokemonDetailsTab1 from './pokemonDetailsTab1';
 
 // other
 import HelperFunctions from '../helperFunctions';
-import TypeFunctions from '../data/pokemonTypes';
 
 
 
@@ -21,10 +18,6 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
     // type bubble colours
     const type1Name: string = pokemonDetails?.types[ 0 ].name || '';
     const type2Name: string = (pokemonDetails && pokemonDetails?.types.length > 1) ? pokemonDetails?.types[ 1 ].name : '';
-
-    const setTabClasses = () => {
-
-    }
 
     const getTabClasses = (tabNum: number) => {
         if (tabNum == selectedTabIndex) {
@@ -107,8 +100,7 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
 
                                 {/* tab 1 */}
                                 {selectedTabIndex == 1 && (
-                                    <div className="w-full h-full bg-slate-900">
-                                    </div>
+                                    <PokemonDetailsTab1 pokemonDetails={pokemonDetails}></PokemonDetailsTab1>
                                 )}
                                 {selectedTabIndex == 2 && (
                                     <div className="w-full h-full bg-cyan-900">

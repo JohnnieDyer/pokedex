@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
+import HelperFunctions from '../helperFunctions';
 import { PokemonDetails } from './dataTypes';
-import PokemonType from './pokemonTypes';
 
 const baseURl = "https://pokeapi.co/api/v2";
 const numOfPokemonPerSet = 50;
@@ -11,17 +11,20 @@ const DataLoader = {
     // load a set of pokemon. amount = numOfPokemonPerSet
     loadSetOfPokemonData(firstId: number, callback: Function) {
         const urls = [];
+        const extraDataUrls = [];
 
         // work out the last and last ids needed for this page of data
-        const lastId = firstId + numOfPokemonPerSet > 251 ? 251 : firstId + numOfPokemonPerSet;
+        const lastId = firstId + numOfPokemonPerSet > 152 ? 152 : firstId + numOfPokemonPerSet;
 
         // build a list of urls to fetch with each id number at the end
         for (let i: number = firstId; i < lastId; i++) {
             urls.push(`${baseURl}/pokemon/${i}`);
+            extraDataUrls.push(`${baseURl}/pokemon-species/${i}`);
         }
 
         // fetch all urls
         const requests = urls.map(x => axios.get(x));
+        const secondaryRequests = extraDataUrls.map(x => axios.get(x));
 
         // array to build pokemon objects into
         const pokemonList: any = [];
@@ -40,6 +43,8 @@ const DataLoader = {
                             imageUrl: data.sprites?.other[ 'official-artwork' ][ 'front_default' ] || '',
                             description: '',
                             abilities: [],
+                            height: data.height,
+                            weight: data.weight,
                             extraDataFetched: false
                         };
 
@@ -53,9 +58,41 @@ const DataLoader = {
                     }
                 }
 
-                if (callback) {
-                    callback(pokemonList);
-                }
+                // now load extra data
+                axios.all(secondaryRequests)
+                    .then(response => {
+                        for (const r of response) {
+                            if (r && r.data) {
+                                let data = r.data;
+
+                                // find the first part of the data for this pokemon
+                                const thisPokemon = pokemonList.find((x: any) => x.id == data.id);
+
+                                if (thisPokemon) {
+
+                                    // find the first description in english
+                                    let i = 0;
+                                    while (i < data.flavor_text_entries.length) {
+                                        if (data.flavor_text_entries[ i ].language.name == 'en') {
+                                            thisPokemon.description = HelperFunctions.removeSymbolsFromText(data.flavor_text_entries[ i ].flavor_text);
+                                            break;
+                                        }
+
+                                        i++
+                                    }
+
+                                    thisPokemon.extraDataFetched = true;
+                                }
+                            }
+                        }
+
+                        if (callback) {
+                            callback(pokemonList);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error)
+                    })
             })
             .catch(error => {
                 console.log(error)
@@ -97,6 +134,8 @@ const DataLoader = {
             imageUrl: '',
             description: '',
             abilities: [],
+            height: 0,
+            weight: 0,
             extraDataFetched: false
         };
 
@@ -112,6 +151,8 @@ const DataLoader = {
                             pokemonDetails.id = data.id;
                             pokemonDetails.name = data.name;
                             pokemonDetails.imageUrl = data.sprites?.other[ 'official-artwork' ][ 'front_default' ] || '';
+                            pokemonDetails.height = data.height;
+                            pokemonDetails.weight = data.weight;
 
                             // add types
                             for (let t of data.types) {
@@ -127,7 +168,7 @@ const DataLoader = {
                             let i = 0;
                             while (i < data.flavor_text_entries.length) {
                                 if (data.flavor_text_entries[ i ].language.name == 'en') {
-                                    pokemonDetails.description = data.flavor_text_entries[ i ].flavor_text;
+                                    pokemonDetails.description = HelperFunctions.removeSymbolsFromText(data.flavor_text_entries[ i ].flavor_text);
                                     break;
                                 }
 
