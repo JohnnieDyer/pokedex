@@ -37,7 +37,7 @@ const DataLoader = {
                             id: data.id,
                             name: data.name,
                             types: [],
-                            imageUrl: data.sprites?.other[ 'official-artwork' ][ 'front_default' ],
+                            imageUrl: data.sprites?.other[ 'official-artwork' ][ 'front_default' ] || '',
                             description: '',
                             abilities: [],
                             extraDataFetched: false
@@ -63,11 +63,90 @@ const DataLoader = {
 
     },
 
+    // loads the extra data for a pokemon eg description
     loadExtraDataForSinglePokemon: (id: Number, callback: Function) => {
         axios.get(`${baseURl}/pokemon-species/${id}`)
             .then(response => {
                 if (callback) {
                     callback(response.data || {});
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+
+    // loads both the default data and extra data for a single pokemon
+    loadAllDataForSinglePokemon: (id: Number, callback: Function) => {
+        if (!id) {
+            return false;
+        }
+
+        // build requests
+        const urls = [
+            `${baseURl}/pokemon/${id}`,
+            `${baseURl}/pokemon-species/${id}`
+        ];
+        const requests = urls.map(x => axios.get(x));
+
+        // build a pokemon details object
+        let pokemonDetails: PokemonDetails = {
+            id: 0,
+            name: '',
+            types: [],
+            imageUrl: '',
+            description: '',
+            abilities: [],
+            extraDataFetched: false
+        };
+
+        // fetch
+        axios.all(requests)
+            .then(response => {
+                for (const res of response) {
+                    const data = res.data;
+
+                    if (res.data) {
+                        //if this is the standard data or extra data request
+                        if (res.request.responseURL == `${baseURl}/pokemon/${id}`) {
+                            pokemonDetails.id = data.id;
+                            pokemonDetails.name = data.name;
+                            pokemonDetails.imageUrl = data.sprites?.other[ 'official-artwork' ][ 'front_default' ] || '';
+
+                            // add types
+                            for (let t of data.types) {
+                                pokemonDetails.types.push({ slot: t.slot, name: t.type.name });
+                            }
+                            pokemonDetails.id = data.id;
+
+                        }
+                        else {
+                            // extra data request
+
+                            // find the first description in english
+                            let i = 0;
+                            while (i < data.flavor_text_entries.length) {
+                                if (data.flavor_text_entries[ i ].language.name == 'en') {
+                                    pokemonDetails.description = data.flavor_text_entries[ i ].flavor_text;
+                                    break;
+                                }
+
+                                i++
+                            }
+
+                            pokemonDetails.extraDataFetched = true;
+                        }
+                    }
+                }
+
+                // if the object is complete return else return false
+                if (callback) {
+                    if (pokemonDetails.id != 0) {
+                        callback(pokemonDetails);
+                    }
+                    else {
+                        return false;
+                    }
                 }
             })
             .catch(error => {

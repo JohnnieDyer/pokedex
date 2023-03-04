@@ -1,5 +1,7 @@
 'use client';
 
+import { PokemonDetails } from "./data/dataTypes";
+
 const HelperFunctions = {
 
     getFormattedIdNumber: (id: number) => {
@@ -16,6 +18,10 @@ const HelperFunctions = {
         else {
             return '' + id;
         }
+    },
+    sortPokemonDataByID: (dataArray: PokemonDetails[]) => {
+        dataArray.sort((x, y) => (x.id > y.id) ? 1 : ((y.id > x.id) ? -1 : 0));
+        return dataArray;
     }
 }
 

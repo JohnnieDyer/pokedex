@@ -5,7 +5,7 @@ export interface PokemonType {
 }
 
 export interface PokemonAbility {
-    
+
 }
 
 export interface PokemonOverview {
@@ -23,4 +23,10 @@ export interface PokemonDetails {
     description: string,
     abilities: PokemonAbility[]
     extraDataFetched: Boolean
+}
+
+export interface PokemonSearchDetails {
+    name: string,
+    id: number,
+    types: any
 }

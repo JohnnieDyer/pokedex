@@ -33,7 +33,7 @@ export default function PokemonCard({ id, name, imageUrl, types, onClickFunction
                     height="100"
                 />
             </div>
-            <div className={`h-full pl-32 text-xl  ${textColour}`}>
+            <div className={`h-full pl-32 w-full text-xl  ${textColour}`}>
                 <div className="row h-1/3">
                     {name}
                 </div>
@@ -44,7 +44,6 @@ export default function PokemonCard({ id, name, imageUrl, types, onClickFunction
                     <div className="h-full">
                         <TypeBubble typeName={type1Name}
                             small={true}>
-
                         </TypeBubble>
                     </div>
                     <div className="h-full">

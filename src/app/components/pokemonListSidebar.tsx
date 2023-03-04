@@ -1,13 +1,18 @@
 'use client';
-import React, {FunctionComponent, useState, useEffect} from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+
+// custom component
 import PokemonCard from './pokemonCard';
+import PokemonSearch from './pokemonSearch';
+
+// other
 import DataLoader from '../data/dataLoader';
+
+// data
+import { PokemonOverview, PokemonDetails } from '../data/dataTypes';
 import PokemonData from '../data/pokemonData';
 
-// data types
-import {PokemonOverview, PokemonDetails} from '../data/dataTypes';
-
-export const PokemonListSidebar: FunctionComponent<any> = ({data, onPokemonSelected}) => {
+export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSelected }) => {
 
     const [ isLoading, setIsLoading ] = useState<Boolean>(false);
     const [ pokemonList, setPokemonList ] = useState<PokemonOverview[]>();
@@ -22,9 +27,18 @@ export const PokemonListSidebar: FunctionComponent<any> = ({data, onPokemonSelec
         onPokemonSelected(id);
     }
 
+    const handleChosenPokemonSearchResult = () => {
+
+    }
+
     return (
-        <div className="w-1/3 h-full bg-gray-900 z-20 p-8 rounded-l-xl shadow-2xl shadow-black/50">
-            <div className="w-full h-full overflow-auto scrollbar-hide">
+        <div className="w-1/3 h-full flex flex-col bg-gray-900 z-20 p-8 rounded-l-xl shadow-2xl">
+            <PokemonSearch
+                data={pokemonList}
+                onPokemonSelected={pokemonSelected}
+            >
+            </PokemonSearch>
+            <div className="w-full grow overflow-auto scrollbar-hide rounded-xl">
                 <ul>
                     {(pokemonList && pokemonList.length) && (
                         pokemonList.map(x => {
@@ -41,7 +55,7 @@ export const PokemonListSidebar: FunctionComponent<any> = ({data, onPokemonSelec
                     )}
                 </ul>
             </div>
-        </div >
+        </div>
     )
 }
 

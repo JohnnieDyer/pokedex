@@ -18,3 +18,33 @@ html, body, label {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0369a1;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0369a1;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #0369a1;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #0369a1;
+  cursor: pointer;
+}
