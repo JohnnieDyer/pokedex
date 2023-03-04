@@ -42,9 +42,11 @@ const DataLoader = {
                             types: [],
                             imageUrl: data.sprites?.other[ 'official-artwork' ][ 'front_default' ] || '',
                             description: '',
-                            abilities: [],
                             height: data.height,
                             weight: data.weight,
+                            abilities: [],
+                            moves: [],
+                            galleryUrls: [],
                             extraDataFetched: false
                         };
 
@@ -52,6 +54,22 @@ const DataLoader = {
                         for (let t of data.types) {
                             pokemonDetails.types.push({ slot: t.slot, name: t.type.name });
                         }
+
+                        // add moves
+                        for (let a of data.moves) {
+                            pokemonDetails.moves.push(a.move.name);
+                        }
+
+                        // add abilities
+                        for (let a of data.abilities) {
+                            pokemonDetails.abilities.push(a.ability.name);
+                        }
+
+                        // add gallery urls
+                        data.sprites.front_default ? pokemonDetails.galleryUrls.push(data.sprites.front_default) : null;
+                        data.sprites.back_default ? pokemonDetails.galleryUrls.push(data.sprites.back_default) : null;
+                        data.sprites.back_shiny ? pokemonDetails.galleryUrls.push(data.sprites.back_shiny) : null;
+                        data.sprites.front_shiny ? pokemonDetails.galleryUrls.push(data.sprites.front_shiny) : null;
 
                         // add to array
                         pokemonList.push(pokemonDetails);
@@ -133,9 +151,11 @@ const DataLoader = {
             types: [],
             imageUrl: '',
             description: '',
-            abilities: [],
             height: 0,
             weight: 0,
+            abilities: [],
+            moves: [],
+            galleryUrls: [],
             extraDataFetched: false
         };
 
@@ -158,8 +178,22 @@ const DataLoader = {
                             for (let t of data.types) {
                                 pokemonDetails.types.push({ slot: t.slot, name: t.type.name });
                             }
-                            pokemonDetails.id = data.id;
 
+                            // add moves
+                            for (let a of data.moves) {
+                                pokemonDetails.moves.push(a.move.name);
+                            }
+
+                            // add abilities
+                            for (let a of data.abilities) {
+                                pokemonDetails.abilities.push(a.ability.name);
+                            }
+
+                            // add gallery urls
+                            data.sprites.front_default ? pokemonDetails.galleryUrls.push(data.sprites.front_default) : null;
+                            data.sprites.back_default ? pokemonDetails.galleryUrls.push(data.sprites.back_default) : null;
+                            data.sprites.back_shiny ? pokemonDetails.galleryUrls.push(data.sprites.back_shiny) : null;
+                            data.sprites.front_shiny ? pokemonDetails.galleryUrls.push(data.sprites.front_shiny) : null;
                         }
                         else {
                             // extra data request

@@ -29,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     setSelectedPokemonId(0);
     DataLoader.loadSetOfPokemonData(pokemonDataList?.length || 1, buildPokemonList);
-  }, []);
+  }, []);  
 
   // pokemon data is loaded but an extra set of data can be loaded per pokemon, these arent loaded until a pokemon is clicked at which point this data will be fetched and stored
   useEffect(() => {
@@ -48,10 +48,6 @@ export default function Home() {
       }
     }
   }, [ selectedPokemonId ]);
-
-  useEffect(() => {
-    console.log(isLoading)
-  }, [ isLoading ]);
 
 
   // variables

@@ -4,7 +4,9 @@ import Image from 'next/image'
 
 // custom components
 import TypeBubble from './typeBubble';
-import PokemonDetailsTab1 from './pokemonDetailsTab1';
+import PokemonDetailsTabInformation from './pokemonDetailsTabInformation';
+import PokemonDetailsTabBattle from './pokemonDetailsTabBattle';
+import PokemonDetailsTabGallery from './pokemonDetailsTabGallery';
 
 // other
 import HelperFunctions from '../helperFunctions';
@@ -29,7 +31,7 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
     }
 
     return (
-        <div className="w-full h-full bg-transparent p-20 flex flex-col">
+        <div className="w-full h-full bg-transparent p-20 flex flex-col overflow-auto">
             {/* top card */}
             <div className="row w-full h-60 bg-sky-900 rounded-xl flex columns-2">
                 <div className="flex w-1/2 p-8">
@@ -74,25 +76,28 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
                 </div>
             </div>
 
+            <div className="w-full bg-transparent h-10">
+            </div>
+
             {/* bottom card */}
-            <div className="w-full grow bg-transparent rounded-xl pt-10">
+            <div className="w-full grow bg-transparent rounded-xl">
                 <div className="w-full h-full bg-sky-900 rounded-xl">
 
                     {pokemonDetails != null && (
                         <div className="w-full h-full p-10 text-slate-200 flex flex-col">
                             {/* tabs row */}
                             <div className="row w-full py-6 px-10 columns-3 text-xl">
-                                <div className={getTabClasses(1)}
+                                <div className={getTabClasses(1) + ' overflow-x-hidden'}
                                     onClick={() => { setSelectedTabindex(1) }}>
-                                    Tab 1
+                                    Information
                                 </div>
-                                <div className={getTabClasses(2)}
+                                <div className={getTabClasses(2) + ' overflow-x-hidden'}
                                     onClick={() => { setSelectedTabindex(2) }}>
-                                    Tab 2
+                                    Battle
                                 </div>
-                                <div className={getTabClasses(3)}
+                                <div className={getTabClasses(3) + ' overflow-x-hidden'}
                                     onClick={() => { setSelectedTabindex(3) }}>
-                                    Tab 3
+                                    Gallery
                                 </div>
                             </div>
 
@@ -100,22 +105,20 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
 
                                 {/* tab 1 */}
                                 {selectedTabIndex == 1 && (
-                                    <PokemonDetailsTab1 pokemonDetails={pokemonDetails}></PokemonDetailsTab1>
+                                    <PokemonDetailsTabInformation pokemonDetails={pokemonDetails}></PokemonDetailsTabInformation>
                                 )}
                                 {selectedTabIndex == 2 && (
-                                    <div className="w-full h-full bg-cyan-900">
-                                    </div>
+                                    <PokemonDetailsTabBattle pokemonDetails={pokemonDetails}></PokemonDetailsTabBattle>
                                 )}
                                 {selectedTabIndex == 3 && (
-                                    <div className="w-full h-full bg-emerald-900">
-                                    </div>
+                                    <PokemonDetailsTabGallery pokemonDetails={pokemonDetails}></PokemonDetailsTabGallery>
                                 )}
 
                             </div>
                         </div>
                     )}
                 </div>
-            </div>
+            </div >
         </div >
     )
 }

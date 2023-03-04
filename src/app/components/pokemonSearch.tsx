@@ -59,12 +59,12 @@ export const PokemonSearch: FunctionComponent<any> = ({ data, onPokemonSelected 
 
     return (
         <div className="w-full flex">
-            <div className={"z-30 w-96 mx-auto"}>
+            <div className={"z-30 w-full mx-auto"}>
                 {/* search input */}
                 <div className={`bg-transparent py-4`}>
                     <div className={`bg-slate-200 rounded-full h-10 py-2 px-10`}>
                         <input id="pokemonSearchInput"
-                            className="h-full bg-slate-200 text-slate-900 !outline-none"
+                            className="h-full w-full bg-slate-200 text-slate-900 !outline-none"
                             type="text"
                             placeholder="Search for a Pokemon..."
                             onChange={handleSearchInputChange}
@@ -76,8 +76,8 @@ export const PokemonSearch: FunctionComponent<any> = ({ data, onPokemonSelected 
 
                 {/* search results */}
                 {(searchResults && searchResults.length > 0) && (
-                    <div className="h-60 w-96 absolute pr-3 py-3 bg-slate-200 shadow-2xl shadow-black/50 rounded-xl">
-                        <div className="max-h-full h-full w-full bg-slate-200 p-2 overflow-auto ">
+                    <div className="max-h-60 w-96 absolute pr-3 py-3 bg-slate-200 shadow-2xl shadow-black/50 rounded-xl">
+                        <div className="max-h-52 w-full bg-slate-200 p-2 overflow-auto ">
                             <div className=" bg-slate-200 rounded-xl pl-2 overflow-y-auto space-y-2 hiden">
                                 {
                                     searchResults.map((x: any) => {

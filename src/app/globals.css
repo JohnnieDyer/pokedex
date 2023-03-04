@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
 html, body, label {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
+}
+
+
+.blue-accent {
+  background-color: #0369a1;
 }
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
@@ -15,8 +21,10 @@ html, body, label {
 
 /* For IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 ::-webkit-scrollbar {
