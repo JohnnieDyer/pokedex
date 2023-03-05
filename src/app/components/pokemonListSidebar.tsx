@@ -11,11 +11,8 @@ import { PokemonOverview, PokemonDetails } from '../data/dataTypes';
 
 
 export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSelected, onScrolledToBottom }) => {
-
-    const [ isLoading, setIsLoading ] = useState<Boolean>(false);
+    
     const [ pokemonList, setPokemonList ] = useState<PokemonOverview[]>();
-    const [ selectedPokemonId, setSelectedPokemonId ] = useState<Number>(1);
-    const [ selectedPokemonDetails, setSelectedPokemonDeetails ] = useState<PokemonDetails>();
 
     useEffect(() => {
         setPokemonList(data);
