@@ -18,18 +18,23 @@ import HelperFunctions from './helperFunctions';
 
 export default function Home() {
 
-  const [ isLoading, setIsLoading ] = useState<Boolean>(true);
+  const [ isLoading, setIsLoading ] = useState<Boolean>(false);
   const [ pokemonDataList, setPokemonDataList ] = useState<PokemonDetails[]>();
   const [ selectedPokemonId, setSelectedPokemonId ] = useState<number>(0);
   const [ selectedPokemonData, setSelectedPokemonData ] = useState<PokemonDetails>();
+
+  let firstLoad: Boolean = true;
 
   // use effects
 
   // load initial data
   useEffect(() => {
-    setSelectedPokemonId(0);
-    DataLoader.loadSetOfPokemonData(pokemonDataList?.length || 1, buildPokemonList);
-  }, []);  
+    if (firstLoad) {
+      setSelectedPokemonId(0);
+      DataLoader.loadSetOfPokemonData(pokemonDataList?.length || 1, buildPokemonList);
+      firstLoad = false;
+    }
+  }, []);
 
   // pokemon data is loaded but an extra set of data can be loaded per pokemon, these arent loaded until a pokemon is clicked at which point this data will be fetched and stored
   useEffect(() => {
