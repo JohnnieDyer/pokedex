@@ -97,3 +97,4 @@ Improvements
 - A 4th tab showing the pokemons evolution chain
 - Go beyond the original 151 pokemon and add more types to accomodate
 - Show more information
+- Improve the search to be more like the pokemon cards, but this would involve downloading each search match for the missing pokemon that havent been loaded yet
