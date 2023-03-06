@@ -93,8 +93,7 @@ Considerations:
 Improvements
 
 - I would have liked to show the base stats using horizontal bars that are coloured and filled to a percentage of how good the stats are
-- When calling the api for more data check if we already have certain pokemon (via search loading) and exclude that 1 from the data load
 - A 4th tab showing the pokemons evolution chain
 - Go beyond the original 151 pokemon and add more types to accomodate
-- Show more information
+- Show more information in general
 - Improve the search to be more like the pokemon cards, but this would involve downloading each search match for the missing pokemon that havent been loaded yet

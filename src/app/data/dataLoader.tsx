@@ -4,20 +4,16 @@ import HelperFunctions from '../helperFunctions';
 import { PokemonDetails } from './dataTypes';
 
 const baseURl = "https://pokeapi.co/api/v2";
-const numOfPokemonPerSet = 50;
 
 const DataLoader = {
 
-    // load a set of pokemon. amount = numOfPokemonPerSet
-    loadSetOfPokemonData(firstId: number, callback: Function) {
+    // load a set of pokemon. list of ids is set by page and passed to this to avoid loading duplicate data
+    loadSetOfPokemonData(listOfIdsToLoad: number[], callback: Function) {
         const urls = [];
         const extraDataUrls = [];
 
-        // work out the last and last ids needed for this page of data
-        const lastId = firstId + numOfPokemonPerSet > 152 ? 152 : firstId + numOfPokemonPerSet;
-
         // build a list of urls to fetch with each id number at the end
-        for (let i: number = firstId; i < lastId; i++) {
+        for (const i of listOfIdsToLoad) {
             urls.push(`${baseURl}/pokemon/${i}`);
             extraDataUrls.push(`${baseURl}/pokemon-species/${i}`);
         }

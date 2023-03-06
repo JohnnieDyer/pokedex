@@ -6,12 +6,12 @@ import PokemonCard from './pokemonCard';
 import PokemonSearch from './pokemonSearch';
 
 // data
-import { PokemonOverview, PokemonDetails } from '../data/dataTypes';
+import { PokemonOverview } from '../data/dataTypes';
 
 
 
-export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSelected, onScrolledToBottom }) => {
-    
+export const PokemonListSidebar: FunctionComponent<any> = ({ data, filteredPokemonIds, showResetButton, clearSearchResults, onPokemonSelected, onScrolledToBottom, onFilterResultsClicked }) => {
+
     const [ pokemonList, setPokemonList ] = useState<PokemonOverview[]>();
 
     useEffect(() => {
@@ -39,27 +39,40 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, onPokemonSele
             <PokemonSearch
                 data={pokemonList}
                 onPokemonSelected={pokemonSelected}
+                onFilterResultsClicked={onFilterResultsClicked}
             >
             </PokemonSearch>
             <div className="w-full grow overflow-auto scrollbar-hide rounded-xl"
-                onScroll={handleScroll}>
+                onScroll={handleScroll}
+            >
                 <ul >
                     {(pokemonList && pokemonList.length) && (
                         pokemonList.map(x => {
-                            return <PokemonCard
-                                id={x.id}
-                                key={x.id}
-                                name={x.name}
-                                imageUrl={x.imageUrl}
-                                types={x.types}
-                                onClickFunction={pokemonSelected}
-                            >
-                            </PokemonCard>
+                            if (filteredPokemonIds?.includes(x.id) || !filteredPokemonIds?.length) {
+                                return <PokemonCard
+                                    id={x.id}
+                                    key={x.id}
+                                    name={x.name}
+                                    imageUrl={x.imageUrl}
+                                    types={x.types}
+                                    onClickFunction={pokemonSelected}
+                                >
+                                </PokemonCard>
+                            }
                         })
                     )}
                 </ul>
             </div>
-        </div>
+            {showResetButton == true && (
+                <div className={`bg-transparent pl-2 h-10 flex border-t-2 border-solid w-full border-slate-900 pt-3`}>
+                    <div className={`rounded-full h-10 w-48 py-2 px-10 text-center bg-sky-900 text-white m-auto cursor-pointer`}
+                        onClick={clearSearchResults}
+                    >
+                        Clear Search
+                    </div >
+                </div >
+            )}
+        </div >
     )
 }
 

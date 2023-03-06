@@ -96,6 +96,12 @@ export const typeColours: { [key: string]: any } = {
         textColour: 'text-white',
         solidColour: 't-col-fairy-solid',
         solidColourName: 'bg-fuchsia-400',
+    },
+    steel: {
+        backgroundColour: 't-col-steel',
+        textColour: 'text-slate-90',
+        solidColour: 't-col-steel-solid',
+        solidColourName: 'bg-gray-500',
     }
 };
 
