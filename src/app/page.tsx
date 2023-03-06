@@ -38,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     if (firstLoad) {
       firstLoad = false;
-      
+
       setSelectedPokemonId(0);
       const listOfIdsToLoad = getListOfIdsToLoadThisPage();
       DataLoader.loadSetOfPokemonData(listOfIdsToLoad, (data: any) => {
@@ -61,7 +61,7 @@ export default function Home() {
     }
     else {
       if (selectedPokemonId) {
-        fetchSinglePokemonsData(selectedPokemonId);
+        fetchSpecificPokemonsData([ selectedPokemonId ]);
       }
     }
   }, [ selectedPokemonId ]);
@@ -112,10 +112,7 @@ export default function Home() {
       // ids we dont have data for
       const idsToFetchDataFor = searchResultIds.filter((x: number) => !allLoadedPokemonIds.includes(x));
 
-      for (const i of idsToFetchDataFor) {
-        fetchSinglePokemonsData(i);
-      }
-
+      fetchSpecificPokemonsData(idsToFetchDataFor);
       setFilteredPokemonIds(searchResultIds);
     }
   }
@@ -128,30 +125,38 @@ export default function Home() {
   // get data functions
 
   // fetch data for a pokemon that hasnt been loaded yet
-  const fetchSinglePokemonsData = (id: number) => {
-    if (id > 151) {
-      return;
+  const fetchSpecificPokemonsData = (ids: number[]) => {
+    // remove any ids after 151 (the max number)
+    const allowedIds = [];
+
+    for (const i of ids) {
+      if (i <= 151) {
+        allowedIds.push(i);
+      }
     }
+
     setSelectedPokemonId(0);
 
     // show loader
     setIsLoading(true);
 
     // fetch
-    DataLoader.loadAllDataForSinglePokemon(id, (data: any) => {
+    DataLoader.loadSetOfPokemonData(allowedIds, (data: any) => {
 
       if (data && pokemonDataList) {
+        // current pokemonDataList backup, add the new pokemons data, sory, set new data
+        let currentPokemonDataList = JSON.parse(JSON.stringify(pokemonDataList));
 
-        // make sure we dont already have this pokemon in the data set        
-        const thisPokemonsData = pokemonDataList.find((x: any) => x.id == id);
-        // if not add it
-        if (!thisPokemonsData) {
-          // current pokemonDataList backup, add the new pokemons data, sory, set new data
-          let currentPokemonDataList = JSON.parse(JSON.stringify(pokemonDataList));
-          currentPokemonDataList.push(data);
-          currentPokemonDataList = HelperFunctions.sortPokemonDataByID(currentPokemonDataList);
-          setPokemonDataList(currentPokemonDataList);
-          setSelectedPokemonId(data.id);
+        for (const p of data) {
+          // make sure we dont already have this pokemon in the data set        
+          const thisPokemonsData = pokemonDataList.find((x: any) => x.id == p.id);
+          // if not add it
+          if (!thisPokemonsData) {
+            currentPokemonDataList.push(p);
+            currentPokemonDataList = HelperFunctions.sortPokemonDataByID(currentPokemonDataList);
+            setPokemonDataList(currentPokemonDataList);
+            setSelectedPokemonId(p.id);
+          }
         }
       }
 
@@ -160,7 +165,7 @@ export default function Home() {
     });
   }
 
-  const loadMoreData = (scrollDiv: any) => {
+  const loadMoreData = () => {
     // check if we need more data or we have the full set
     if (pokemonDataList && pokemonDataList.length < 151) {
       // show loader
@@ -197,7 +202,7 @@ export default function Home() {
       );
     }
   }
-
+  { }
 
   return (
     <main className="bg-gray-800 h-full w-full overflow-hidden">
@@ -207,7 +212,6 @@ export default function Home() {
 
         {/* inside page */}
         <div className="flex w-full 3xl:w-3/4 4xl:w-1/2h-full 3xl:max-w-[1400px]">
-
           <PokemonListSidebar
             data={pokemonDataList}
             onPokemonSelected={(id: number) => { setSelectedPokemonId(id); }}

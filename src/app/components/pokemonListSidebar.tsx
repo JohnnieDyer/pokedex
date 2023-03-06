@@ -33,6 +33,7 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, filteredPokem
             onScrolledToBottom();
         }
     }
+    
 
     return (
         <div className="w-1/3 h-full flex flex-col bg-gray-900 z-20 p-8 rounded-l-xl shadow-2xl">
