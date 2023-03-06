@@ -76,8 +76,7 @@ export const PokemonDetailsPanel: FunctionComponent<any> = ({ pokemonDetails }) 
                 </div>
             </div>
 
-            <div className="w-full bg-transparent h-10">
-            </div>
+            <span className={"text-transparent"}>. </span>
 
             {/* bottom card */}
             <div className="w-full grow bg-transparent rounded-xl">

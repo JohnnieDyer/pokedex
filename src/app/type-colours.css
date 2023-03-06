@@ -63,6 +63,10 @@
     @apply bg-gradient-to-t from-fuchsia-500 to-fuchsia-300 hover:from-fuchsia-300 hover:to-fuchsia-100;
 }
 
+.t-col-steel {
+    @apply bg-gradient-to-t from-gray-500 to-gray-300 hover:from-gray-300 hover:to-gray-100;
+}
+
 
 
 /* type darker colours - used for bubbles on same coloured cards */
@@ -124,9 +128,13 @@
 }
 
 .t-col-dragon-solid {
-    @apply bg-indigo-700;
+    @apply bg-indigo-600;
 }
 
 .t-col-fairy-solid {
     @apply bg-fuchsia-400;
+}
+
+.t-col-steel-solid {
+    @apply bg-gray-400;
 }
