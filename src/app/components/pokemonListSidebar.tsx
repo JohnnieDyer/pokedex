@@ -18,6 +18,9 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, filteredPokem
         setPokemonList(data);
     }, [ data ]);
 
+    //variables
+    let scrollBox: any;
+
 
     // functions
 
@@ -33,18 +36,33 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, filteredPokem
             onScrolledToBottom();
         }
     }
-    
+
+    const handleClearSearchResults = () => {
+        scrollBoxToTop();
+        clearSearchResults();
+    }
+
+    const handleFilterResultsClicked = (searchResults: any) => {
+        onFilterResultsClicked(searchResults);
+        scrollBoxToTop();
+    }
+
+    const scrollBoxToTop = () => {
+        scrollBox.scrollTop = 0;
+    }
+
 
     return (
         <div className="w-1/3 h-full flex flex-col bg-gray-900 z-20 p-8 rounded-l-xl shadow-2xl">
             <PokemonSearch
                 data={pokemonList}
                 onPokemonSelected={pokemonSelected}
-                onFilterResultsClicked={onFilterResultsClicked}
+                onFilterResultsClicked={handleFilterResultsClicked}
             >
             </PokemonSearch>
             <div className="w-full grow overflow-auto scrollbar-hide rounded-xl"
                 onScroll={handleScroll}
+                ref={ref => scrollBox = ref}
             >
                 <ul >
                     {(pokemonList && pokemonList.length) && (
@@ -67,7 +85,7 @@ export const PokemonListSidebar: FunctionComponent<any> = ({ data, filteredPokem
             {showResetButton == true && (
                 <div className={`bg-transparent pl-2 h-10 flex border-t-2 border-solid w-full border-slate-900 pt-3`}>
                     <div className={`rounded-full h-10 w-48 py-2 px-10 text-center bg-sky-900 text-white m-auto cursor-pointer`}
-                        onClick={clearSearchResults}
+                        onClick={handleClearSearchResults}
                     >
                         Clear Search
                     </div >
